@@ -1,4 +1,4 @@
-// Cargando solo dependencias
+// Cargando dependencias externas
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var debug = require('debug')('delete-dwpcll:server');
 
+// Cargando dependecias internas
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
