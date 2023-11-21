@@ -2,6 +2,23 @@
 "name": "s04e01-proyecto-final",
 "version": "0.0.0",
 "private": true,
+"customizations": {
+  "vscode": {
+    "extensions": [
+      "mongodb.mongodb-vscode",
+				"PKief.material-icon-theme",
+				"ritwickdey.LiveServer",
+				"meganrogge.template-string-converter",
+				"wayou.vscode-todo-highlight",
+				"rangav.vscode-thunder-client",
+				"eamodio.gitlens",
+				"usernamehw.errorlens",
+				"esbenp.prettier-vscode",
+				"christian-kohler.path-intellisense",
+				"dbaeumer.vscode-eslint"
+    ]
+  }
+},
 "scripts": {
   "start": "node ./server/bin/www",
   "dev": "DEBUG=s04e01-proyecto-final:server && babel-watch ./server/bin/www",
