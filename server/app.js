@@ -4,36 +4,76 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var debug = require('debug')('delete-dwpcll:server');
 
+// Setting Webpack Modules
+import webpack  from 'webpack';
+import WebpackDevMiddleware from 'webpack-dev-middleware';
+import WebpackHotMiddleware from 'webpack-hot-middleware';
+
+//example to import debugLogger
+var debug = require('./services/debugLogger');
+
+
+// Importing webpack configuration
+import webpackConfig from '../webpack.dev.config';
 // Cargando dependecias internas
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-// Creando la instancia de express
+// creando la instancia de express
 var app = express();
 
-// view engine setup - Configurando el motor de plantillas
-//debug(`📢 Ruta de app: ${path.join(__dirname, 'views')}`);
+// Get the execution mode
+const nodeEnviroment = process.env.NODE_ENV || 'production';
+
+if(nodeEnviroment === 'development'){
+  // Start Webpack dev server
+  console.log("🛠️  Ejecutando en modo desarrollo");
+  // using debug 
+  debug('✒ Ejecutando en modo de desarrollo 👨‍💻')
+  // Adding the key "mode" with its value "development"
+  webpackConfig.mode = nodeEnviroment;
+  // Setting the dev server port to the same value as the express server
+  webpackConfig.devServer.port = process.env.PORT;
+  // Setting up the HMR (Hot Module Replacement)
+  webpackConfig.entry = [
+    "webpack-hot-middleware/client?reload=true&timeout=1000",
+    webpackConfig.entry
+  ];
+	// Agregar el plugin a la configuración de desarrollo
+  // de webpack
+  webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+  // Creating the bundler
+  const bundle = webpack(webpackConfig);
+  // Enabling the webpack middleware
+  app.use( WebpackDevMiddleware(bundle, {
+    publicPath: webpackConfig.output.publicPath
+  }) );
+  //  Enabling the webpack HMR
+  app.use( WebpackHotMiddleware(bundle) );
+}else{
+  console.log("🏭 Ejecutando en modo producción 🏭");
+}
+
+// configurando el motor de plantillas
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// Se establece los middlewares
+// se establecen los middlewares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// Me crea un server de archivos estaticos
+// crear un server de archivos estáticos
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Registro de Middlewares de aplicación
 app.use('/', indexRouter);
-// Activa "usersRourter" cuando se 
-// solicita "/users" 
+// activa "usersRouter" cuando se
+// solicita "/users"
 app.use('/users', usersRouter);
-/*app.use('/author', (req, res)=>{
-  res.json({mainDeveloper: "Juan Carlos & Luis Alfonso"})
-});*/
+/* app.use('/author', (req, res) => {
+  res.json({mainDeveloper: "Joshua Barajas"})
+}) */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
