@@ -1,40 +1,42 @@
-// Helps to handle http errors
-import createError from 'http-errors';
+// Cargando dependencias
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-// var debug = require('debug')('dwpcii1:server');
+
 // Setting Webpack Modules
 import webpack from 'webpack';
 import WebpackDevMiddleware from 'webpack-dev-middleware';
 import WebpackHotMiddleware from 'webpack-hot-middleware';
-// Importing webpack configuration
-import webpackConfig from '../webpack.dev.config';
+
 // Importing template-engine
 import configTemplateEngine from './config/templateEngine';
+
+// Importing webpack configuration
+import webpackConfig from '../webpack.dev.config';
+
 // Impornting winston logger
 import log from './config/winston';
-// example to import debugLogger
+
+// Importing Router
+import router from './router';
+
 import debug from './services/debugLogger';
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
 
 // Creando variable del directorio raiz
 // eslint-disable-next-line
-global["__rootdir"] = path.resolve(process.cwd());
+global['__rootdir'] = path.resolve(process.cwd());
 
-// creando la instancia de express
+// Creando la instancia de express
 const app = express();
 
 // Get the execution mode
 const nodeEnviroment = process.env.NODE_ENV || 'production';
 
+// Deciding if we add webpack middleware or not
 if (nodeEnviroment === 'development') {
   // Start Webpack dev server
-  // console.log('🛠️  Ejecutando en modo desarrollo');
-  // using debug
-  debug('✒ Ejecutando en modo de desarrollo 👨‍💻');
+  debug('🛠️ Ejecutando en modo desarrollo 🛠️');
   // Adding the key "mode" with its value "development"
   webpackConfig.mode = nodeEnviroment;
   // Setting the dev server port to the same value as the express server
@@ -61,41 +63,18 @@ if (nodeEnviroment === 'development') {
   console.log('🏭 Ejecutando en modo producción 🏭');
 }
 
-// Configurando el motor de plantillas
+// Configuring the template engine
 configTemplateEngine(app);
 
-// se establecen los middlewares
+// Se establecen los middlewares
 app.use(morgan('dev', { stream: log.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// crear un server de archivos estáticos
+// Crea un server de archivos estaticos
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.use('/', indexRouter);
-// activa "usersRouter" cuando se
-// solicita "/users"
-app.use('/users', usersRouter);
-/* app.use('/author', (req, res) => {
-  res.json({mainDeveloper: "Joshua Barajas"})
-}) */
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  log.info(`404 Página no encontrada ${req.method} ${req.originalUrl}`);
-  next(createError(404));
-});
-
-// error handler
-app.use((err, req, res) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  log.error(`${err.status || 500} - ${err.message}`);
-  res.render('error');
-});
+// Registro de Rutas
+router.addRoutes(app);
 
 export default app;
