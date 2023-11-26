@@ -16,6 +16,8 @@
         "prettier/prettier": ["error"]
     },
     "globals": {
-        "_rootdir": "readonly"
+        "_rootdir": "readonly",
+        "__rootdir": "readonly",
+        "M": "readonly"
     }
 }
