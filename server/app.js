@@ -9,19 +9,16 @@ import webpack from 'webpack';
 import WebpackDevMiddleware from 'webpack-dev-middleware';
 import WebpackHotMiddleware from 'webpack-hot-middleware';
 
-// Importing template-engine
-import configTemplateEngine from './config/templateEngine';
-
 // Importing webpack configuration
 import webpackConfig from '../webpack.dev.config';
-
-// Impornting winston logger
+// Importing template-engine
+import configTemplateEngine from './config/templateEngine';
+// Importing winston logger
 import log from './config/winston';
-
+// importing debuglogger
+import debug from './services/debugLogger';
 // Importing Router
 import router from './router';
-
-import debug from './services/debugLogger';
 
 // Creando variable del directorio raiz
 // eslint-disable-next-line

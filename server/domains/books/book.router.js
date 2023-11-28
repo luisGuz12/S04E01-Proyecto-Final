@@ -9,16 +9,10 @@ const router = new Router();
 
 // Enrutamos
 // GET '/project/projects
-router.get('/', userController.dashboard);
-
-// GET '/project/dashboard
-router.get('/dashboard', userController.dashboard);
+router.get(['/', '/dashboard'], userController.book);
 
 // GET '/project/add-form
-router.get('/add-form', userController.addform);
-
-// GET '/project/add
-router.get('/add', userController.add);
+router.get(['/add-form', '/add'], userController.addform);
 
 // Exporto este tramo de ruta
 export default router;
