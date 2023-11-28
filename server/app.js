@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import mongoose from 'mongoose';
 
 // Setting Webpack Modules
 import webpack from 'webpack';
@@ -62,6 +63,19 @@ if (nodeEnviroment === 'development') {
 
 // Configuring the template engine
 configTemplateEngine(app);
+
+// Database connection checker Middleware
+app.use((req, res, next) => {
+  if (mongoose.connection.readyState === 1) {
+    log.info('✅ Verificación de conexión a bd exitosa');
+    next();
+  } else {
+    log.info('🔴 No pasa la verificación de conexión a la bd exitosa');
+    res
+      .status(503)
+      .render('errors/e503View', { layout: 'errors', status: 503 });
+  }
+});
 
 // Se establecen los middlewares
 app.use(morgan('dev', { stream: log.stream }));

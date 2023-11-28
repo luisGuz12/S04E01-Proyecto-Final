@@ -7,6 +7,9 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+#env
+.env
+
 #ignoring client files
 /public/styles/app.css
 /public/bundle.js
