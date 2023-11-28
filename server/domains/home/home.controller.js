@@ -2,12 +2,21 @@
 // GET "/"
 // GET "/index"
 const home = (req, res) => {
-    const iconSet = ['⭐', '🧮', '📚'];
-    const icon = iconSet[Math.floor(Math.random() * 3)];
-    res.render('index', { title: 'Proyecto Biblioteca', icon });
-  };
-  
-  // Controlador Home
-  export default {
-    home,
-  };
+  const iconSet = ['⭐', '🤖', '🍉', '📲', '🪸', '🌠', '🦾'];
+  const icon = iconSet[Math.floor(Math.random() * iconSet.length)];
+  res.render('home/homeView', { title: 'Biblos', icon });
+};
+
+// GET "/about"
+const about = (req, res) => {
+  res.render('home/aboutView', {
+    title: 'Biblos | About',
+    appVersion: '1.0.0',
+  });
+};
+
+// Controlador Home
+export default {
+  home,
+  about,
+};
