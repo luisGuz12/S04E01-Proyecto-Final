@@ -10,7 +10,9 @@ import debug from '../services/debugLogger';
 // Importing winston logger
 import log from '../config/winston';
 // Importing configuration keys
-import configKeys from '../config/configKeys.js';
+import configKeys from '../config/configKeys';
+// Importing connectWithRetry
+import connectWithRetry from '../database/mongooseConnection';
 
 /**
  * Create HTTP server.
@@ -80,6 +82,8 @@ function onListening() {
   const bind = typeof addr === 'string' ? `Pipe ${addr}` : `port ${addr.port}`;
   debug(`📢 Listening on  ${bind}`);
 }
+
+connectWithRetry(configKeys.MONGO_URL);
 
 /**
  * Listen on provided port, on all network interfaces.
