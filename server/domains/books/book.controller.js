@@ -88,6 +88,11 @@ const edit = async (req, res) => {
   }
 };
 
+// PUT "/book/edit/:id"
+const editPut = (req, res) => {
+  res.status(200).send('Request attended: "/book/edit/:id"');
+};
+
 // Controlador user
 export default {
   // Action Methods
@@ -95,4 +100,5 @@ export default {
   add,
   addPost,
   edit,
+  editPut,
 };

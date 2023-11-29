@@ -7,8 +7,8 @@
           Editar libro
         </span>
       </div>
-      <form autocomplete='off' action="/book/edit/{{ book._id }}" method="put">
-        <div class='card-content'>
+      <form autocomplete="off" action="/book/edit/{{ book._id }}?_method=put" method="post"></form>
+       <div class='card-content'>
           <div class='input-field'>
             <label for='book-name'>
               Nombre del libro
