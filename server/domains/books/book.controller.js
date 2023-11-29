@@ -7,9 +7,12 @@ import bookModel from './book.model';
 // Importando Httperrors
 
 // Actions methods
-// GET "/project"
-const showDashboard = (req, res) => {
-  res.send('⚠️ UNDER CONSTRUCTION: GET /book/showDashboard ⚠️');
+// GET "/book"
+const showDashboard = async (req, res) => {
+  // Consultado todos los proyectos
+  const projects = await bookModel.find({});
+  // Enviando los proyectos al cliente en JSON
+  res.status(200).json(projects);
 };
 
 // GET "/project/add"
