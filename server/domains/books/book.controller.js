@@ -1,6 +1,6 @@
 // Action Methods
 
-// Get '/project/projects'
+// Get '/book/book'
 const book = (req, res) => {
   res.send("🚧 UNDER CONSTRUCTION GET '/book/' and '/book/dashboard' 🚧");
 };
