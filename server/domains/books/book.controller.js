@@ -64,10 +64,19 @@ const addPost = async (req, res) => {
   }
 };
 
+// GET "/project/edit/:id"
+const edit = (req, res) => {
+  // Se extrae el id de los parámetros
+  const { id } = req.params;
+  // Se renderiza la vista de edición
+  res.render('book/editView', { id });
+};
+
 // Controlador user
 export default {
   // Action Methods
   showDashboard,
   add,
   addPost,
+  edit,
 };
