@@ -81,7 +81,7 @@ const edit = async (req, res) => {
     // Se manda a renderizar la vista de edición
     // res.render('project/editView', project);
     log.info(`libro encontrado con el id: ${id}`);
-    return res.status(200).json(book);
+    return res.render('book/editView', { book });
   } catch (error) {
     log.error('Ocurre un error en: metodo "error" de book.controller');
     return res.status(500).json(error);
