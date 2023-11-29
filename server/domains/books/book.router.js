@@ -33,7 +33,14 @@ router.post(
 router.get('/edit/:id', bookController.edit);
 
 // PUT "/book/edit/:id"
-router.put('/edit/:id', bookController.editPut);
+router.put(
+  '/edit/:id',
+  ValidateFactory({
+    schema: bookValidator.bookSchema,
+    getObject: bookValidator.getbook,
+  }),
+  bookController.editPut,
+);
 
 // Exporto este tramo de ruta
 export default router;
