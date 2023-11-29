@@ -31,7 +31,7 @@ const addPost = async (req, res) => {
   if (validationError) {
     log.info('Se entrega al cliente error de validación de add Project');
     // Se desestructuran los datos de validación
-    const { value: project } = validationError;
+    const { value: book } = validationError;
     // Se extraen los campos que fallaron en la validación
     const errorModel = validationError.inner.reduce((prev, curr) => {
       // Creando una variable temporal para
@@ -40,18 +40,18 @@ const addPost = async (req, res) => {
       workingPrev[`${curr.path}`] = curr.message;
       return workingPrev;
     }, {});
-    return res.status(422).render('book/addbook', { project, errorModel });
+    return res.status(422).render('book/addbook', { book, errorModel });
   }
   // En caso de que pase la validación
   // Se desestructura la información
   // de la peticion
-  const { validData: project } = req;
+  const { validData: book } = req;
   try {
     // Creando la instancia de un documento
     // con los valores de 'project'
-    const savedProject = await bookModel.create(project);
+    const savedbook = await bookModel.create(book);
     // Se informa al cliente que se guardo el proyecto
-    log.info(`Se carga proyecto ${savedProject}`);
+    log.info(`Se carga proyecto ${savedbook}`);
     // Se registra en el log el redireccionamiento
     log.info('Se redirecciona el sistema a /book');
     // Se redirecciona el sistema a la ruta '/project'
