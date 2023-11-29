@@ -23,8 +23,8 @@ router.get('/add', bookController.add);
 router.post(
   '/add',
   ValidateFactory({
-    schema: bookValidator.projectSchema,
-    getObject: bookValidator.getProject,
+    schema: bookValidator.bookSchema,
+    getObject: bookValidator.getbook,
   }),
   bookController.addPost,
 );
