@@ -2,28 +2,32 @@
 import { Router } from 'express';
 
 // Importando el controlador
-import userController from './book.controller';
+import bookController from './project.controller';
 
-import bookController from './book.controller';
+// Importando factory de validación
+import ValidateFactory from '../../services/validateFactory';
+// Importando el validador de proyectos
+import bookValidator from './project.validator';
 
-// Creando una instancia del enrutador
+// Creando una isntancia del enrutador
 const router = new Router();
 
 // Enrutamos
-// GET '/book/book
-router.get('/', userController.dashboard);
+// GET "/project"
+router.get('/', bookController.showDashboard);
 
-// GET '/book/dashboard
-router.get('/dashboard', userController.dashboard);
-
-// GET '/project/add-form
-router.get('book/addbook', userController.addform);
-
-// GET '/project/add
+// GET "/project/add"
 router.get('/add', bookController.add);
 
 // POST "/project/add"
-router.post('/add', bookController.addPost);
+router.post(
+  '/add',
+  ValidateFactory({
+    schema: bookValidator.projectSchema,
+    getObject: bookValidator.getProject,
+  }),
+  bookController.addPost,
+);
 
 // Exporto este tramo de ruta
 export default router;
