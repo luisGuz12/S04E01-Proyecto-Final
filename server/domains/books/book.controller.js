@@ -1,16 +1,28 @@
 // Action Methods
 
 // Get '/book/book'
-const book = (req, res) => {
+const projects = (req, res) => {
   res.render('book/addbook');
 };
 
-// Get '/project/projects'
+// Get '/project/dashboard'
+const dashboard = (req, res) => {
+  res.send("🚧 UNDER CONSTRUCTION GET '/book'🚧");
+};
+
+// Get '/book/book'
 const addform = (req, res) => {
   res.render('book/addbook');
 };
 
+// Get '/book/add'
+const add = (req, res) => {
+  res.render('book/addbook');
+};
+
 export default {
-  book,
+  projects,
+  dashboard,
   addform,
+  add,
 };

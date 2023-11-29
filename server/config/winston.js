@@ -5,7 +5,7 @@ import path from 'path';
 
 // Se desestructuran funciones para realizar la
 // composición del formato
-const { combine, timestamp, label, printf, colorize } = format;
+const { combine, timestamp, label, printf, colorize, prettyPrint } = format;
 
 // Creando variable del directorio raiz
 // eslint-disable-next-line
@@ -46,6 +46,7 @@ const myFileFormat = combine(
   format.uncolorize(),
   // Agregando fecha
   timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }),
+  prettyPrint(),
   // Estableciendo la salida en formato Json
   format.json(),
 );

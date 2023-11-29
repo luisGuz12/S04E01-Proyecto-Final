@@ -8,14 +8,16 @@ import userController from './book.controller';
 const router = new Router();
 
 // Enrutamos
-// GET '/project/projects
-router.get(['/', '/dashboard'], userController.book);
+// GET '/book/book
+router.get('/', userController.dashboard);
 
-// GET '/project/add-form
+// GET '/book/dashboard
+router.get('/dashboard', userController.dashboard);
+
 // GET '/project/add-form
 router.get('book/addbook', userController.addform);
 
-// GET '/book/add
+// GET '/project/add
 router.get('/add', userController.add);
 
 // Exporto este tramo de ruta
