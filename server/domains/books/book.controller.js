@@ -64,12 +64,28 @@ const addPost = async (req, res) => {
   }
 };
 
-// GET "/project/edit/:id"
-const edit = (req, res) => {
-  // Se extrae el id de los parámetros
+// GET "/book/edit/:id"
+const edit = async (req, res) => {
+  // Extrayendo el id por medio de los parametros de url
   const { id } = req.params;
-  // Se renderiza la vista de edición
-  res.render('book/editView', { id });
+  // Buscando en la base de datos
+  try {
+    log.info(`Se inicia la busqueda del libro con el id: ${id}`);
+    const book = await bookModel.findOne({ _id: id }).lean().exec();
+    if (book === null) {
+      log.info(`No se encontro el librp con el id: ${id}`);
+      return res
+        .status(404)
+        .json({ fail: `No se encontro el libro con el id: ${id}` });
+    }
+    // Se manda a renderizar la vista de edición
+    // res.render('project/editView', project);
+    log.info(`libro encontrado con el id: ${id}`);
+    return res.status(200).json(book);
+  } catch (error) {
+    log.error('Ocurre un error en: metodo "error" de book.controller');
+    return res.status(500).json(error);
+  }
 };
 
 // Controlador user
