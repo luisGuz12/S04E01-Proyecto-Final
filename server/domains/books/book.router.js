@@ -13,13 +13,13 @@ import bookValidator from './book.validator';
 const router = new Router();
 
 // Enrutamos
-// GET "/project"
+// GET "/book"
 router.get('/', bookController.showDashboard);
 
-// GET "/project/add"
+// GET "/book/add"
 router.get('/add', bookController.add);
 
-// POST "/project/add"
+// POST "/book/add"
 router.post(
   '/add',
   ValidateFactory({

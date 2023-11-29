@@ -5,10 +5,10 @@ import log from '../../config/winston';
 
 // Creando un esquema de validación para el proyecto
 const bookSchema = Yup.object().shape({
-  name: Yup.string().required('Se requiere un nombre de proyecto'),
+  name: Yup.string().required('Se requiere un nombre del libro'),
   description: Yup.string()
     .max(500, 'No escribir mas de 500 caracteres')
-    .required('Se requiere una descripción del proyecto'),
+    .required('Se requiere una descripción del libro'),
 });
 
 // Creando el extractor de datos de la petición
