@@ -20,9 +20,14 @@ const add = (req, res) => {
   res.render('book/addbook');
 };
 
+const addPost = (req, res) => {
+  res.status(200).json(req.body);
+};
+
 export default {
   projects,
   dashboard,
   addform,
   add,
+  addPost,
 };
