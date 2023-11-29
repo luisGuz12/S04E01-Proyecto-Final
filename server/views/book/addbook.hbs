@@ -2,38 +2,39 @@
     <div class="col s12 m10 offset-m1 18 offset-12">
         <div class="card">
             <div class="card-image">
-                <img src="/images/addbook.png" alt="Imagen creacion del proyecto">
+                <img src="/images/addbook.png" alt="Imagen de agregar libro">
                 <span 
-                class="card-title add-project"
+                class="card-title add-book"
                 style="font-weight: bolder">
-                Agregar Libro
+                Registrar libro
                 </span>
             </div>
-            <form autocomplete="off" action="/project/add" method="post">
+            <form autocomplete="off" action="/book/addbook" method="post">
             <div class="card-content">
-                <div class="imput-field">
-                    <label for="book-name">
-                        Nombre del libro
-                    </label>
-                    <input 
-                    type="text"
-                    id="book-name"
-                    name="name"
-                    required
-                    placeholder="Ingrese nombre del libro"
-                    class="validate">
-                </div>
-                <div class="imput-field">
-                     <label for="book-description">
-                        Descripcion del libro
-                    </label>
-                    <textarea 
-                    name="description" 
-                    id="book-description"
-                    required
-                    class="materialize-textarea"></textarea>
-                </div>
-            </div>
+                <div class='input-field'>
+  <label for='book-name'>Nombre de tu libro</label>
+  <input
+    placeholder='El nombre de tu libro aqui 👇'
+    id='book-name'
+    name='name'
+    type='text'
+    class="validate"
+		value="{{ book.name }}"
+  />
+  {{#if errorModel.name }}
+    <span style="color: crimson;">Error: {{ errorModel.name }}</span>
+  {{/if}}
+</div>
+            <div class='input-field'>
+  <label for='book-description'>Descripción del libro</label>
+  <textarea 
+		id='book-description' 
+		name='description' 
+		class="materialize-textarea" required>{{book.description}}</textarea>
+  {{#if errorModel.description }}
+    <span style="color: crimson;">Error: {{ errorModel.description }}</span>
+  {{/if}}
+</div>
             <div class="card-action">
                 <button class="blue darken-3 waves-effect waves-light btn">
                     <i class="material-icons left">note_add</i>Agregar
