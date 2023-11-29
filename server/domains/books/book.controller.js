@@ -2,12 +2,12 @@
 
 // Get '/book/book'
 const book = (req, res) => {
-  res.send("🚧 UNDER CONSTRUCTION GET '/book/' and '/book/dashboard' 🚧");
+  res.render('book/addbook');
 };
 
 // Get '/project/projects'
 const addform = (req, res) => {
-  res.send("🚧 UNDER CONSTRUCTION GET '/book/add-form' and '/book/add' 🚧");
+  res.render('book/addbook');
 };
 
 export default {

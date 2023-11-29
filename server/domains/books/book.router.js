@@ -12,7 +12,11 @@ const router = new Router();
 router.get(['/', '/dashboard'], userController.book);
 
 // GET '/project/add-form
-router.get(['/add-form', '/add'], userController.addform);
+// GET '/project/add-form
+router.get('book/addbook', userController.addform);
+
+// GET '/book/add
+router.get('/add', userController.add);
 
 // Exporto este tramo de ruta
 export default router;
