@@ -8,11 +8,13 @@ import bookModel from './book.model';
 
 // Actions methods
 // GET "/book"
+// GET "/book"
 const showDashboard = async (req, res) => {
   // Consultado todos los proyectos
-  const projects = await bookModel.find({});
+  const book = await bookModel.find({}).lean().exec();
   // Enviando los proyectos al cliente en JSON
-  res.status(200).json(projects);
+  log.info('Se entrega dashboard de proyectos');
+  res.render('book/dashboardViews', { book });
 };
 
 // GET "/project/add"
@@ -27,9 +29,9 @@ const addPost = async (req, res) => {
   // En caso de haber error
   // se le informa al cliente
   if (validationError) {
-    log.info('Se entrega al cliente error de validación de add book');
+    log.info('Se entrega al cliente error de validación de add Project');
     // Se desestructuran los datos de validación
-    const { value: book } = validationError;
+    const { value: project } = validationError;
     // Se extraen los campos que fallaron en la validación
     const errorModel = validationError.inner.reduce((prev, curr) => {
       // Creando una variable temporal para
@@ -38,22 +40,22 @@ const addPost = async (req, res) => {
       workingPrev[`${curr.path}`] = curr.message;
       return workingPrev;
     }, {});
-    return res.status(422).render('book/addbook', { book, errorModel });
+    return res.status(422).render('book/addbook', { project, errorModel });
   }
   // En caso de que pase la validación
   // Se desestructura la información
   // de la peticion
-  const { validData: book } = req;
+  const { validData: project } = req;
   try {
     // Creando la instancia de un documento
     // con los valores de 'project'
-    const savedbook = await bookModel.create(book);
+    const savedProject = await bookModel.create(project);
     // Se informa al cliente que se guardo el proyecto
-    log.info(`Se carga proyecto ${savedbook}`);
+    log.info(`Se carga proyecto ${savedProject}`);
     // Se registra en el log el redireccionamiento
     log.info('Se redirecciona el sistema a /book');
     // Se redirecciona el sistema a la ruta '/project'
-    return res.redirect('/book/showDashboard');
+    return res.redirect('/book');
   } catch (error) {
     log.error(
       'ln 53 project.controller: Error al guardar proyecto en la base de datos',
