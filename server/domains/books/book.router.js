@@ -2,12 +2,12 @@
 import { Router } from 'express';
 
 // Importando el controlador
-import bookController from './project.controller';
+import bookController from './book.controller';
 
 // Importando factory de validación
 import ValidateFactory from '../../services/validateFactory';
 // Importando el validador de proyectos
-import bookValidator from './project.validator';
+import bookValidator from './book.validator';
 
 // Creando una isntancia del enrutador
 const router = new Router();
