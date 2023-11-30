@@ -8,8 +8,15 @@ import 'materialize-css/dist/css/materialize.css';
 // Importando scripts de Materialize
 import 'materialize-css/dist/js/materialize';
 /* eslint-enable */
+// Script para borrar book
+import deleteBook from './domains/book.dashboard';
 
 // Inicializando Scripts de Materialize para la interactividad
 M.AutoInit();
+
+// Cargando script en caso de que la URL sea '/book'
+if (window.location.pathname === '/book') {
+  window.deleteBook = deleteBook;
+}
 
 console.log('🎉 Estilos cargados correctamente 🎉');

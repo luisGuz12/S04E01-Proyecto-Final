@@ -42,5 +42,8 @@ router.put(
   bookController.editPut,
 );
 
+// DELETE "/book/:id"
+router.delete('/:id', bookController.deleteBook);
+
 // Exporto este tramo de ruta
 export default router;

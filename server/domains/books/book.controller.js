@@ -4,9 +4,14 @@ import log from '../../config/winston';
 // Importando el modelo
 import bookModel from './book.model';
 
-// Importando Httperrors
+// Action Methods
 
-// Actions methods
+// GET '/book/addForm'
+// GET '/book/add'
+const addForm = (req, res) => {
+  res.render('book/addView');
+};
+
 // GET "/book"
 // GET "/book"
 const showDashboard = async (req, res) => {
@@ -55,7 +60,7 @@ const addPost = async (req, res) => {
     // Se registra en el log el redireccionamiento
     log.info('Se redirecciona el sistema a /book');
     // Se redirecciona el sistema a la ruta '/book'
-    return res.redirect('/book');
+    return res.redirect('/book/showDashboard');
   } catch (error) {
     log.error(
       'ln 53 book.controller: Error al guardar proyecto en la base de datos',
@@ -132,6 +137,16 @@ const editPut = async (req, res) => {
   }
 };
 
+const deleteBook = async (req, res) => {
+  const { id } = req.params;
+  // Usando el modelo para borrar el proyecto
+  try {
+    const result = await bookModel.findByIdAndRemove(id);
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
 // Controlador user
 export default {
   // Action Methods
@@ -140,4 +155,6 @@ export default {
   addPost,
   edit,
   editPut,
+  addForm,
+  deleteBook,
 };

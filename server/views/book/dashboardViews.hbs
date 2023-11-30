@@ -1,4 +1,4 @@
-<h1>Listado de Proyectos</h1>
+<h1>Listado de libros</h1>
 <div class="row">
   {{#each book}}
     <div class="col s12">
@@ -13,7 +13,7 @@
               style = "display: inline-flex; vertical-align: sub;">edit</i>
             <span >Editar libro</span>
           </a>
-          <a href="#" class="inline">
+          <a href="javascript: deleteBook('{{_id}}')" class="inline">
             <i class="material-icons" 
 	            style = "display: inline-flex; vertical-align: sub;">
 	            delete</i>
@@ -23,6 +23,6 @@
       </div>
     </div>
   {{else}}
-    <p>No hay libros que listar.</p>
+    <p>No hay proyectos que listar.</p>
   {{/each}}
 </div>
