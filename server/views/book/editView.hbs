@@ -2,13 +2,13 @@
   <div class='col s12 m10 offset-m1 18 offset-12'>
     <div class='card'>
       <div class='card-image'>
-        <img src='/images/addbook.png' alt='agregando libro' />
+        <img src='/images/addbook.png' alt='Imagen de edicion de libro' />
         <span class='card-title add-project' style='font-weight: bolder;'>
           Editar libro
         </span>
       </div>
-      <form autocomplete="off" action="/book/edit/{{ book._id }}?_method=put" method="post"></form>
-       <div class='card-content'>
+      <form autocomplete="off" action="/book/edit/{{ book._id }}?_method=put" method="post">
+     <div class='card-content'>
           <div class='input-field'>
             <label for='book-name'>
               Nombre del libro
@@ -24,7 +24,7 @@
             />
             <span
               class='helper-text'
-              data-error='👆 Es necesario ingresar el nombre del libro 👆'
+              data-error='👆 Es necesario ingresar el nombre del libro👆'
               data-success='✅ Correcto'
             ></span>
             {{#if errorModel.name}}

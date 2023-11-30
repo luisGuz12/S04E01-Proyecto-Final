@@ -13,7 +13,7 @@ const showDashboard = async (req, res) => {
   // Consultado todos los proyectos
   const book = await bookModel.find({}).lean().exec();
   // Enviando los proyectos al cliente en JSON
-  log.info('Se entrega dashboard de proyectos');
+  log.info('Se entrega dashboard de libros');
   res.render('book/dashboardViews', { book });
 };
 
@@ -29,7 +29,7 @@ const addPost = async (req, res) => {
   // En caso de haber error
   // se le informa al cliente
   if (validationError) {
-    log.info('Se entrega al cliente error de validación de add Project');
+    log.info('Se entrega al cliente error de validación de add book');
     // Se desestructuran los datos de validación
     const { value: book } = validationError;
     // Se extraen los campos que fallaron en la validación
@@ -51,14 +51,14 @@ const addPost = async (req, res) => {
     // con los valores de 'project'
     const savedbook = await bookModel.create(book);
     // Se informa al cliente que se guardo el proyecto
-    log.info(`Se carga proyecto ${savedbook}`);
+    log.info(`Se carga libro ${savedbook}`);
     // Se registra en el log el redireccionamiento
     log.info('Se redirecciona el sistema a /book');
-    // Se redirecciona el sistema a la ruta '/project'
+    // Se redirecciona el sistema a la ruta '/book'
     return res.redirect('/book');
   } catch (error) {
     log.error(
-      'ln 53 project.controller: Error al guardar proyecto en la base de datos',
+      'ln 53 book.controller: Error al guardar proyecto en la base de datos',
     );
     return res.status(500).json(error);
   }
@@ -73,13 +73,13 @@ const edit = async (req, res) => {
     log.info(`Se inicia la busqueda del libro con el id: ${id}`);
     const book = await bookModel.findOne({ _id: id }).lean().exec();
     if (book === null) {
-      log.info(`No se encontro el librp con el id: ${id}`);
+      log.info(`No se encontro el libro con el id: ${id}`);
       return res
         .status(404)
         .json({ fail: `No se encontro el libro con el id: ${id}` });
     }
     // Se manda a renderizar la vista de edición
-    // res.render('project/editView', project);
+    // res.render('book/editView', book);
     log.info(`libro encontrado con el id: ${id}`);
     return res.render('book/editView', { book });
   } catch (error) {
@@ -89,8 +89,47 @@ const edit = async (req, res) => {
 };
 
 // PUT "/book/edit/:id"
-const editPut = (req, res) => {
-  res.status(200).send('Request attended: "/book/edit/:id"');
+const editPut = async (req, res) => {
+  const { id } = req.params;
+  // Rescatando la info del formulario
+  const { errorData: validationError } = req;
+  // En caso de haber error
+  // se le informa al cliente
+  if (validationError) {
+    log.info(`Error de validación del libro con id: ${id}`);
+    // Se desestructuran los datos de validación
+    const { value: book } = validationError;
+    // Se extraen los campos que fallaron en la validación
+    const errorModel = validationError.inner.reduce((prev, curr) => {
+      // Creando una variable temporal para
+      // evitar el error "no-param-reassing"
+      const workingPrev = prev;
+      workingPrev[`${curr.path}`] = curr.message;
+      return workingPrev;
+    }, {});
+    return res.status(422).render('book/editView', { book, errorModel });
+  }
+  // Si no hay error
+  const book = await bookModel.findOne({ _id: id });
+  if (book === null) {
+    log.info(`No se encontro el libro para actualizar con id: ${id}`);
+    return res
+      .status(404)
+      .send(`No se encontro el libro para actualizar con id: ${id}`);
+  }
+  // En caso de encontrarse el documento se actualizan los datos
+  const { validData: newbook } = req;
+  book.name = newbook.name;
+  book.description = newbook.description;
+  try {
+    // Se salvan los cambios
+    log.info(`Actualizando libro con id: ${id}`);
+    await book.save();
+    return res.redirect(`/book/edit/${id}`);
+  } catch (error) {
+    log.error(`Error al actualizar proyecto con id: ${id}`);
+    return res.status(500).json(error);
+  }
 };
 
 // Controlador user
