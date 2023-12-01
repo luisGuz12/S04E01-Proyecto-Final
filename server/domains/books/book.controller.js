@@ -59,8 +59,10 @@ const addPost = async (req, res) => {
     log.info(`Se carga libro ${savedbook}`);
     // Se registra en el log el redireccionamiento
     log.info('Se redirecciona el sistema a /book');
+    // Agregando mensaje flash
+    req.flash('successMessage', 'Libro agregado con exito');
     // Se redirecciona el sistema a la ruta '/book'
-    return res.redirect('/book/showDashboard');
+    return res.redirect('/book/dashboard');
   } catch (error) {
     log.error(
       'ln 53 book.controller: Error al guardar proyecto en la base de datos',
@@ -130,6 +132,8 @@ const editPut = async (req, res) => {
     // Se salvan los cambios
     log.info(`Actualizando libro con id: ${id}`);
     await book.save();
+    // Generando mensaje flash
+    req.flash('successMessage', 'Libro editado con exito');
     return res.redirect(`/book/edit/${id}`);
   } catch (error) {
     log.error(`Error al actualizar proyecto con id: ${id}`);
@@ -142,6 +146,8 @@ const deleteBook = async (req, res) => {
   // Usando el modelo para borrar el proyecto
   try {
     const result = await bookModel.findByIdAndRemove(id);
+    // Agregando mensaje flash
+    req.flash('successMessage', 'Libro borrado con exito');
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json(error);
