@@ -20,8 +20,5 @@
         "_rootdir": "readonly",
         "__rootdir": "readonly",
         "M": "readonly"
-    },
-    "settings": {
-        "import/resolver": { "babel-module": {} }
     }
 }
