@@ -8,23 +8,19 @@ import bookModel from './book.model';
 
 // GET '/book/addForm'
 // GET '/book/add'
-const addForm = (req, res) => {
-  res.render('book/addView');
-};
 
-// GET "/book"
 // GET "/book"
 const showDashboard = async (req, res) => {
   // Consultado todos los proyectos
   const book = await bookModel.find({}).lean().exec();
   // Enviando los proyectos al cliente en JSON
   log.info('Se entrega dashboard de libros');
-  res.render('book/dashboardViews', { book });
+  res.render('book/dashboardViews', { book, title: 'Biblos | Books' });
 };
 
 // GET "/project/add"
 const add = (req, res) => {
-  res.render('book/addbook');
+  res.render('book/addbook', { title: 'Biblos | Add' });
 };
 
 // POST "/project/add"
@@ -88,7 +84,7 @@ const edit = async (req, res) => {
     // Se manda a renderizar la vista de edición
     // res.render('book/editView', book);
     log.info(`libro encontrado con el id: ${id}`);
-    return res.render('book/editView', { book });
+    return res.render('book/editView', { book, title: 'Biblos | Edit' });
   } catch (error) {
     log.error('Ocurre un error en: metodo "error" de book.controller');
     return res.status(500).json(error);
@@ -133,7 +129,7 @@ const editPut = async (req, res) => {
     log.info(`Actualizando libro con id: ${id}`);
     await book.save();
     // Generando mensaje flash
-    req.flash('successMessage', 'Libro editado con exito');
+    req.flash('successMessage', ' Libro editado con exito');
     return res.redirect(`/book/edit/${id}`);
   } catch (error) {
     log.error(`Error al actualizar proyecto con id: ${id}`);
@@ -147,7 +143,7 @@ const deleteBook = async (req, res) => {
   try {
     const result = await bookModel.findByIdAndRemove(id);
     // Agregando mensaje flash
-    req.flash('successMessage', 'Libro borrado con exito');
+    req.flash('successMessage', ' Libro borrado con exito');
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json(error);
@@ -161,6 +157,5 @@ export default {
   addPost,
   edit,
   editPut,
-  addForm,
   deleteBook,
 };

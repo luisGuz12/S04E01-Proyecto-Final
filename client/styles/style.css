@@ -23,7 +23,8 @@ h1 {
   margin-right: 10px; /* Add some space between the image and text if desired */
   border-radius: 25px;
 }
-.card-title.add-project{
+
+.card-title .add-project{
   color:#FFF;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
   font: 24px;
@@ -33,5 +34,5 @@ h1 {
   top: auto !important;
   right: auto !important;
   bottom: 1.5%;
-  left:80%;
+  left:82%;
 }
