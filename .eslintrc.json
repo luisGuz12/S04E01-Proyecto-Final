@@ -12,9 +12,9 @@
         "sourceType": "module"
     },
     "rules": {
-        "quotes": ["error", "single"],
         "no-console":"off",
-        "prettier/prettier": ["error"]
+        "prettier/prettier": ["error"],
+        "no-underscore-dangle": ["error", { "allow": ["_id"] }]
     },
     "globals": {
         "_rootdir": "readonly",
