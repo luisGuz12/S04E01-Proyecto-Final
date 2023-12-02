@@ -20,8 +20,19 @@ const register = (req, res) => {
   res.render('user/register', { title: 'Biblos | Register' });
 };
 
+// POST '/user/register'
+const registerPost = (req, res) => {
+  const { validData, errorData } = req;
+  log.info('Se procesa formulario de registro');
+  res.json({
+    validData,
+    errorData,
+  });
+};
+
 export default {
   login,
   logout,
   register,
+  registerPost,
 };
