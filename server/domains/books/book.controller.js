@@ -58,7 +58,7 @@ const addPost = async (req, res) => {
     // Agregando mensaje flash
     req.flash('successMessage', 'Libro agregado con exito');
     // Se redirecciona el sistema a la ruta '/book'
-    return res.redirect('/book/dashboard');
+    return res.redirect('/book');
   } catch (error) {
     log.error(
       'ln 53 book.controller: Error al guardar proyecto en la base de datos',
