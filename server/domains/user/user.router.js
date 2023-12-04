@@ -44,8 +44,8 @@ router.get('/edit/:id', userController.edit);
 router.put(
   '/edit/:id',
   ValidateFactory({
-    schema: userValidator.signUpSchema,
-    getObject: userValidator.sigUpGetter,
+    schema: userValidator.signUp.schema,
+    getObject: userValidator.signUp.getObject,
   }),
   userController.editPut,
 );
