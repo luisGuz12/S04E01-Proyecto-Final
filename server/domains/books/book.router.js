@@ -45,5 +45,11 @@ router.put(
 // DELETE "/book/:id"
 router.delete('/:id', bookController.deleteBook);
 
+// GET "/book/search"
+router.get('/search', bookController.search);
+
+// POST "/book/search"
+router.post('/search', bookController.resultpost);
+
 // Exporto este tramo de ruta
 export default router;

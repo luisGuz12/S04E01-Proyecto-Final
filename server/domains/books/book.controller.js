@@ -149,6 +149,34 @@ const deleteBook = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+
+// GET "/book/search"
+const search = async (req, res) => {
+  res.render('book/searchbook', { title: 'Biblos | Search' });
+};
+
+// post "/book/search"
+const resultpost = async (req, res) => {
+  try {
+    console.log(req.body);
+    const searchTerm = req.body.name;
+    const book = await await bookModel
+      .find({ name: new RegExp(searchTerm, 'i') })
+      .lean()
+      .exec();
+    // res.json(book);
+    res.render('book/searchbook', {
+      title: 'Biblos | Found',
+      name: searchTerm,
+      value: searchTerm,
+      book,
+    }); // Renderiza los resultados de la búsqueda
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error en la búsqueda de libros');
+  }
+};
+
 // Controlador user
 export default {
   // Action Methods
@@ -158,4 +186,6 @@ export default {
   edit,
   editPut,
   deleteBook,
+  search,
+  resultpost,
 };
