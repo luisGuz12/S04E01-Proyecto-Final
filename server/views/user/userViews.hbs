@@ -1,0 +1,40 @@
+<h1>listar Usuarios</h1>
+<div class="row">
+    {{#if user.legth}}
+  {{#each user}}
+    <div class="col s12 m5 l6">
+      <div class="card hoverable">
+        <div class="card-image">
+          <div class="overlay"></div>
+          <img class="responsive-img" src="/images/user.png" alt="{{name}}">
+          <span class="card-title">{{name}}</span>
+        </div>
+        <div class="card-content">
+          <div class="divider"></div>
+          <br>
+          <p>nombre:</strong> {{firstName}}</p>
+          <p><strong>apellido:</strong> {{lastname}}</p>
+          <p><strong>correo:</strong> {{mail}}</p>
+          <p><strong>Codigo de estudiante:</strong> {{code}}</p>
+          <p><strong>grado:</strong> {{grado}}</p>
+         <p><strong>seccion:</strong> {{section}}</p>
+        </div>
+        <div class="card-action valign-wrapper">
+          <a href="/user/edit/{{_id}}" class="teal-text valign-wrapper">
+            <i class="material-icons">edit</i>
+            <span>Editar usuario</span>
+          </a>
+          <a href="javascript: deleteuser('{{_id}}')" class="red-text valign-wrapper">
+            <i class="material-icons">delete</i>
+            <span>Borrar usuario</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    {{else}}
+      <p>No hay usuarios que listar.</p>
+    {{/each}}
+  {{else}}
+    <p>No hay usuarios que listar.</p>
+  {{/if}}
+</div>

@@ -124,6 +124,10 @@ const editPut = async (req, res) => {
   const { validData: newbook } = req;
   book.name = newbook.name;
   book.description = newbook.description;
+  book.autor = newbook.autor;
+  book.categoria = newbook.categoria;
+  book.isbn = newbook.isbn;
+  book.numerocopias = newbook.numerocopias;
   try {
     // Se salvan los cambios
     log.info(`Actualizando libro con id: ${id}`);

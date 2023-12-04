@@ -14,6 +14,8 @@ import ValidateFactory from '../../services/validateFactory';
 const router = new Router();
 
 // Enrutamos
+// GET '/user/Dashboard
+router.get(['/', '/dashboard'], userController.showDashboard);
 // GET '/user/login
 router.get('/login', userController.login);
 
@@ -30,11 +32,24 @@ router.post(
   userController.registerPost,
 );
 
-// GET "/book/search"
+// GET "/user/search"
 router.get('/search', userController.search);
 
-// POST "/book/search"
+// POST "/user/search"
 router.post('/search', userController.resultpost);
+
+// PUT "/user/edit/:id"
+router.put(
+  '/edit/:id',
+  ValidateFactory({
+    shcema: userValidator.UserShcema,
+    getObject: userValidator.getuser,
+  }),
+  userController.editPut,
+);
+
+// DELETE "/user/:id"
+router.delete('/:id', userController.deleteUser);
 
 // Exporto este tramo de ruta
 export default router;

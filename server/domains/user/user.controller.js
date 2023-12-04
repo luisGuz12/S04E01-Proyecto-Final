@@ -4,7 +4,17 @@ import userModel from './user.model';
 // importing model
 import User from './user.model';
 // Action Methods
-
+// GET "/user"
+const showDashboard = async (req, res) => {
+  // Consultado todos los proyectos
+  const user = await userModel.find({}).lean().exec();
+  // Enviando los proyectos al cliente en JSON
+  log.info('Se entrega dashboard de user');
+  res.render('user/userViews', { user, title: 'Biblos | user' });
+};
+const addForm = (req, res) => {
+  res.render('user/searchuser');
+};
 // Get '/user/login'
 const login = (req, res) => {
   // Sirve el formulario de login
@@ -53,7 +63,7 @@ const registerPost = async (req, res) => {
 
 // GET "/user/search"
 const search = async (req, res) => {
-  res.render('user/searchuser', { title: 'user | Search' });
+  res.render('user/searchuser', { title: 'biblos | Search' });
 };
 
 // GET "/user/search"
@@ -75,7 +85,9 @@ const resultpost = async (req, res) => {
     res.render('user/searchuser', {
       title: 'user | Found',
       name: searchTerm,
-      value: searchTerm,
+      code: searchTerm,
+      grade: searchTerm,
+      section: searchTerm,
       user,
     });
   } catch (error) {
@@ -83,11 +95,103 @@ const resultpost = async (req, res) => {
     res.status(500).send('Error en la búsqueda de usuarios');
   }
 };
+
+// GET "/user/edit/:id"
+const edit = async (req, res) => {
+  // Extrayendo el id por medio de los parametros de url
+  const { id } = req.params;
+  // Buscando en la base de datos
+  try {
+    log.info(`Se inicia la busqueda del usuario con el id: ${id}`);
+    const user = await userModel.findOne({ user_id: id }).lean().exec();
+    if (user === null) {
+      log.info(`No se encontro el usuario con el id: ${id}`);
+      return res
+        .status(404)
+        .json({ fail: `No se encontro el usuario con el id: ${id}` });
+    }
+    // Se manda a renderizar la vista de edición
+    // res.render('user/editView', user);
+    log.info(`usuario encontrado con el id: ${id}`);
+    return res.render('user/edituser', { user, title: 'user | Edit' });
+  } catch (error) {
+    log.error('Ocurre un error en: metodo "error" de user.controller');
+    return res.status(500).json(error);
+  }
+};
+
+// PUT "/user/edit/:id"
+const editPut = async (req, res) => {
+  const { id } = req.params;
+  // Rescatando la info del formulario
+  const { errorData: validationError } = req;
+  // En caso de haber error
+  // se le informa al cliente
+  if (validationError) {
+    log.info(`Error de validación del user con id: ${id}`);
+    // Se desestructuran los datos de validación
+    const { value: user } = validationError;
+    // Se extraen los campos que fallaron en la validación
+    const errorModel = validationError.inner.reduce((prev, curr) => {
+      // Creando una variable temporal para
+      // evitar el error "no-param-reassing"
+      const workingPrev = prev;
+      workingPrev[`${curr.path}`] = curr.message;
+      return workingPrev;
+    }, {});
+    return res.status(422).render('user/edituser', { user, errorModel });
+  }
+  // Si no hay error
+  const user = await userModel.findOne({ _id: id });
+  if (user === null) {
+    log.info(`No se encontro el usuario para actualizar con id: ${id}`);
+    return res
+      .status(404)
+      .send(`No se encontro el usuario para actualizar con id: ${id}`);
+  }
+  // En caso de encontrarse el documento se actualizan los datos
+  const { validData: newuser } = req;
+  user.firstName = newuser.firstName;
+  user.lastname = newuser.lastname;
+  user.code = newuser.code;
+  user.grade = newuser.grade;
+  user.description = newuser.section;
+  try {
+    // Se salvan los cambios
+    log.info(`Actualizando usuario con id: ${id}`);
+    await user.save();
+    // Generando mensaje flash
+    req.flash('successMessage', ' usuario editado con exito');
+    return res.redirect(`/user/edit/${id}`);
+  } catch (error) {
+    log.error(`Error al actualizar proyecto con id: ${id}`);
+    return res.status(500).json(error);
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  // Usando el modelo para borrar el proyecto
+  try {
+    const result = await userModel.findByIdAndRemove(id);
+    // Agregando mensaje flash
+    req.flash('successMessage', ' usuario borrado con exito');
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 export default {
+  showDashboard,
   login,
   logout,
   register,
   registerPost,
   search,
   resultpost,
+  edit,
+  editPut,
+  deleteUser,
+  addForm,
 };

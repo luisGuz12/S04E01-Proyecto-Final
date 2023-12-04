@@ -2,27 +2,27 @@
   <div class='col s12 m10 offset-m1 18 offset-12'>
     <div class='card'>
       <div class='card-image'>
-        <img src='/images/addbook.png' alt='Imagen de edicion de libro' />
+        <img src='/images/user.png' alt='Imagen de edicion de usuario' />
         <span class='card-title add-project' style='font-weight: bolder;'>
-          Editar libro
+          Editar usuario
         </span>
       </div>
-      <form autocomplete="off" action="/book/edit/{{ book._id }}?_method=put" method="post">
+      <form autocomplete="off" action="/user/edit/{{ user._id }}?_method=put" method="post">
      <div class='card-content'>
        <div class='input-field'>
-            <label for='book-name'>titulo del libro</label>
+            <label for='user-firstName'>nombre</label>
             <input
-              placeholder='nombre del libro aqui'
-              id='book-name'
-              name='name'
+              placeholder='nombre del usuario aqui'
+              id='user-firstName'
+              name='firstName'
               type='text'
               class="validate"
-              value="{{ book.name }}"
+              value="{{ user.firstName }}"
               required
             />
             <span 
               class="helper-text"
-              data-error="Es necesario ingresar el titulo del libro"
+              data-error="Es necesario ingresar el nombre del usuario"
               data-success="✅ Correcto"
               ></span>
             {{#if errorModel.name }}
@@ -32,19 +32,19 @@
           
             <div class="card-content">
           <div class='input-field'>
-            <label for='book-autor'>autor del libro</label>
+            <label for='user-lastname'>apellidos</label>
             <input
-              placeholder='nombre del autor ✍'
-              id='book-autor'
-              name='autor'
+              placeholder='apellidos del usuario'
+              id='user-lastname'
+              name='lastname'
               type='text'
               class="validate"
-              value="{{ book.autor }}"
+              value="{{ user.lastname }}"
               required
             />
             <span 
               class="helper-text"
-              data-error="Es necesario ingresar el nommbre del autor"
+              data-error="Es necesario ingresar el apellido del alumno"
               data-success="✅ Correcto"
               ></span>
             {{#if errorModel.name }}
@@ -55,19 +55,19 @@
 
           <div class="card-content">
           <div class='input-field'>
-            <label for='book-categoria'>ingrese la categoria</label>
+            <label for='user-mail'>ingrese el correo</label>
             <input
-              placeholder='ingrese una categoria'
-              id='book-categoria'
-              name='categoria'
+              placeholder='ingrese un correo'
+              id='user-mail'
+              name='mail'
               type='text'
               class="validate"
-              value="{{ book.categoria }}"
+              value="{{ user.mail }}"
               required
             />
             <span 
               class="helper-text"
-              data-error="Es necesario ingresar una categoria del libro"
+              data-error="Es necesario ingresar un correo"
               data-success="✅ Correcto"
               ></span>
             {{#if errorModel.name }}
@@ -77,19 +77,19 @@
 
            <div class="card-content">
           <div class='input-field'>
-            <label for='book-isbn'>ingrese el ISBN del libro</label>
+            <label for='user-code'>ingrese el grado del alumno</label>
             <input
-              placeholder='ISBN del libro'
-              id='book-isbn'
-              name='isbn'
+              placeholder='grado del alumno'
+              id='user-code'
+              name='code'
               type='text'
               class="validate"
-              value="{{ book.isbn }}"
+              value="{{ user.code }}"
               required
             />
             <span 
               class="helper-text"
-              data-error="Es necesario ingresar el ISBN del libro"
+              data-error="Es necesario ingresar el grado del alumno"
               data-success="✅ Correcto"
               ></span>
             {{#if errorModel.name }}
@@ -99,41 +99,23 @@
 
             <div class="card-content">
           <div class='input-field'>
-            <label for='book-numerocopias'>Copias del libro</label>
+            <label for='user-section'>seccion del alumno</label>
             <input
-              placeholder='Numero de libros disponibles'
-              id='book-numero_copias'
-              name='numerocopias'
+              placeholder='seccion del alumno'
+              id='user-section'
+              name='section'
               type='text'
               class="validate"
-              value="{{ book.numerocopias }}"
+              value="{{ user.section }}"
               required
             />
             <span 
               class="helper-text"
-              data-error="Es necesario ingresar los numeros de libros"
+              data-error="Es necesario ingresar la seccion del usuario"
               data-success="✅ Correcto"
               ></span>
             {{#if errorModel.name }}
             <span style="color: crimson;">Error: {{ errorModel.name }}</span>
-            {{/if}}
-          </div> 
-
-          <div class='input-field'>
-            <label for='book-description'>
-              Descripción del libro
-            </label>
-            <textarea
-              id='book-description'
-              name='description'
-              class="materialize-textarea validate" required>{{book.description}}</textarea>
-              <span 
-              class="helper-text"
-              data-error="Debe ingresar una descripción"
-              data-success="✅ Correcto"
-              ></span>
-            {{#if errorModel.description }}
-            <span style="color: crimson;">Error: {{ errorModel.description }}</span>
             {{/if}}
           </div>   
         </div>
