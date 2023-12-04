@@ -1,5 +1,6 @@
 // importing Logs
 import log from '../../config/winston';
+import userModel from './user.model';
 // importing model
 import User from './user.model';
 // Action Methods
@@ -50,9 +51,43 @@ const registerPost = async (req, res) => {
   }
 };
 
+// GET "/user/search"
+const search = async (req, res) => {
+  res.render('user/searchuser', { title: 'user | Search' });
+};
+
+// GET "/user/search"
+const resultpost = async (req, res) => {
+  try {
+    console.log(req.body);
+    const searchTerm = req.body.name;
+    const user = await userModel
+      .find({
+        $or: [
+          { name: new RegExp(searchTerm, 'i') },
+          { code: new RegExp(searchTerm, 'i') },
+          { grade: new RegExp(searchTerm, 'i') },
+          { section: new RegExp(searchTerm, 'i') },
+        ],
+      })
+      .lean()
+      .exec();
+    res.render('user/searchuser', {
+      title: 'user | Found',
+      name: searchTerm,
+      value: searchTerm,
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error en la búsqueda de usuarios');
+  }
+};
 export default {
   login,
   logout,
   register,
   registerPost,
+  search,
+  resultpost,
 };

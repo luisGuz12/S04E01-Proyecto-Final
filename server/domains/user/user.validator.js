@@ -12,11 +12,25 @@ const signUpSchema = Yup.object().shape({
     [Yup.ref('password')],
     'El password de confirmación no coincide',
   ),
+  code: Yup.string()
+    .max(9, 'No escribir mas de 9 caracteres')
+    .required('Se requiere codigo de estudiante'),
+  grade: Yup.string().required('Se requiere ingresar un grado'),
+  section: Yup.string().required('Se requiere ingresar la seccion'),
 });
 
 const sigUpGetter = (req) => {
   // Desestructurando la informacion
-  const { firstName, lastname, mail, password, cpassword } = req.body;
+  const {
+    firstName,
+    lastname,
+    mail,
+    password,
+    cpassword,
+    code,
+    grade,
+    section,
+  } = req.body;
   // Se ingresa al objeto singup
   return {
     firstName,
@@ -24,6 +38,9 @@ const sigUpGetter = (req) => {
     mail,
     password,
     cpassword,
+    code,
+    grade,
+    section,
   };
 };
 

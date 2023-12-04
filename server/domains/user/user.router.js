@@ -30,5 +30,11 @@ router.post(
   userController.registerPost,
 );
 
+// GET "/book/search"
+router.get('/search', userController.search);
+
+// POST "/book/search"
+router.post('/search', userController.resultpost);
+
 // Exporto este tramo de ruta
 export default router;

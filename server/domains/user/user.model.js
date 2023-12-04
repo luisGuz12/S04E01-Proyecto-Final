@@ -11,6 +11,8 @@ const UserShcema = new Schema(
   {
     firstName: { type: String, required: true },
     lastname: { type: String, required: true },
+    grade: { type: String, required: true },
+    section: { type: String, required: true },
     mail: {
       type: String,
       unique: true,
@@ -44,6 +46,32 @@ const UserShcema = new Schema(
         message: 'Es necesario ingresar un password fuerte',
       },
     },
+    code: {
+      type: String,
+      required: [true, 'Es necesario ingresar un codigo de estudiante'],
+      trim: true,
+      minLength: [
+        9,
+        'el codigo de estudiante debe ser de al menos 9 caracteres',
+      ],
+      validate: {
+        validator(code) {
+          if (process.env.NODE_ENV === 'development') {
+            // Sin validacion rigurosa en Dev
+            return true;
+          }
+          return validator.isStrongPassword(code, {
+            minLength: 9,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 0,
+            returnScore: false,
+          });
+        },
+        message: 'Es necesario ingresar el codigo de estudiante',
+      },
+    },
     emailConfirmationToken: String,
     emailConfirmationAt: Date,
   },
@@ -69,6 +97,9 @@ UserShcema.methods = {
       id: this._id,
       firstName: this.firstName,
       lastname: this.lastname,
+      code: this.code,
+      grade: this.grade,
+      section: this.section,
       mail: this.mail,
       emailConfirmationToken: this.generateConfirmationToken,
       emailConfirmationAt: this.emailConfirmationAt,
