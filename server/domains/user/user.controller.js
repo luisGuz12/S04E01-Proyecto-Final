@@ -1,8 +1,7 @@
 // importing Logs
 import log from '../../config/winston';
+// importing modelimport userModel from './user.model';
 import userModel from './user.model';
-// importing model
-import User from './user.model';
 // Action Methods
 // GET "/user"
 const showDashboard = async (req, res) => {
@@ -45,7 +44,7 @@ const registerPost = async (req, res) => {
   try {
     // 1. Se crea una instancia del modelo User
     // mediante la función create del modelo
-    const user = await User.create(userFormData);
+    const user = await userModel.create(userFormData);
     log.info(`Usuario creado: ${JSON.stringify(user)}`);
     req.flash('successMessage', ' Se ha creado su perfil');
     // 3. Se contesta al cliente con el usuario creado
@@ -63,31 +62,27 @@ const registerPost = async (req, res) => {
 
 // GET "/user/search"
 const search = async (req, res) => {
-  res.render('user/searchuser', { title: 'biblos | Search' });
+  res.render('user/searchuser', { title: 'User | Search' });
 };
 
 // GET "/user/search"
 const resultpost = async (req, res) => {
   try {
-    console.log(req.body);
+    console.log(req.body.name);
     const searchTerm = req.body.name;
     const user = await userModel
       .find({
         $or: [
-          { name: new RegExp(searchTerm, 'i') },
+          { firstName: new RegExp(searchTerm, 'i') },
           { code: new RegExp(searchTerm, 'i') },
-          { grade: new RegExp(searchTerm, 'i') },
-          { section: new RegExp(searchTerm, 'i') },
         ],
       })
       .lean()
       .exec();
+    // res.json(user);
     res.render('user/searchuser', {
       title: 'user | Found',
-      name: searchTerm,
-      code: searchTerm,
-      grade: searchTerm,
-      section: searchTerm,
+      value: searchTerm,
       user,
     });
   } catch (error) {
@@ -103,7 +98,7 @@ const edit = async (req, res) => {
   // Buscando en la base de datos
   try {
     log.info(`Se inicia la busqueda del usuario con el id: ${id}`);
-    const user = await userModel.findOne({ user_id: id }).lean().exec();
+    const user = await userModel.findOne({ _id: id }).lean().exec();
     if (user === null) {
       log.info(`No se encontro el usuario con el id: ${id}`);
       return res
@@ -128,7 +123,7 @@ const editPut = async (req, res) => {
   // En caso de haber error
   // se le informa al cliente
   if (validationError) {
-    log.info(`Error de validación del user con id: ${id}`);
+    log.info(`Error de validación del libro con id: ${id}`);
     // Se desestructuran los datos de validación
     const { value: user } = validationError;
     // Se extraen los campos que fallaron en la validación
@@ -144,27 +139,28 @@ const editPut = async (req, res) => {
   // Si no hay error
   const user = await userModel.findOne({ _id: id });
   if (user === null) {
-    log.info(`No se encontro el usuario para actualizar con id: ${id}`);
+    log.info(`No se encontro el libro para actualizar con id: ${id}`);
     return res
       .status(404)
-      .send(`No se encontro el usuario para actualizar con id: ${id}`);
+      .send(`No se encontro el libro para actualizar con id: ${id}`);
   }
   // En caso de encontrarse el documento se actualizan los datos
   const { validData: newuser } = req;
   user.firstName = newuser.firstName;
-  user.lastname = newuser.lastname;
-  user.code = newuser.code;
+  user.lastname = newuser.description;
+  user.code = newuser.autor;
   user.grade = newuser.grade;
-  user.description = newuser.section;
+  user.section = newuser.section;
+  user.email = newuser.email;
   try {
     // Se salvan los cambios
     log.info(`Actualizando usuario con id: ${id}`);
     await user.save();
     // Generando mensaje flash
-    req.flash('successMessage', ' usuario editado con exito');
-    return res.redirect(`/user/edit/${id}`);
+    req.flash('successMessage', ' Usuario editado con exito');
+    return res.redirect(`/user/edituser/${id}`);
   } catch (error) {
-    log.error(`Error al actualizar proyecto con id: ${id}`);
+    log.error(`Error al actualizar usuario con id: ${id}`);
     return res.status(500).json(error);
   }
 };

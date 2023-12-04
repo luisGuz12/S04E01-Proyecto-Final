@@ -38,12 +38,14 @@ router.get('/search', userController.search);
 // POST "/user/search"
 router.post('/search', userController.resultpost);
 
+// GET "/project/edit/:id"
+router.get('/edit/:id', userController.edit);
 // PUT "/user/edit/:id"
 router.put(
   '/edit/:id',
   ValidateFactory({
-    shcema: userValidator.UserShcema,
-    getObject: userValidator.getuser,
+    schema: userValidator.signUpSchema,
+    getObject: userValidator.sigUpGetter,
   }),
   userController.editPut,
 );

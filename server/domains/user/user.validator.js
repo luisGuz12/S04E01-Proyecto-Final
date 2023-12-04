@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import log from '../../config/winston';
 
 // Crear schema de validacion
 const signUpSchema = Yup.object().shape({
@@ -20,7 +21,6 @@ const signUpSchema = Yup.object().shape({
 });
 
 const sigUpGetter = (req) => {
-  // Desestructurando la informacion
   const {
     firstName,
     lastname,
@@ -30,8 +30,10 @@ const sigUpGetter = (req) => {
     code,
     grade,
     section,
-  } = req.body;
-  // Se ingresa al objeto singup
+  } = req.body; // Se agregan todas las variables
+  log.info(
+    `Se extraen datos de la petición: name ${firstName}, apellido ${lastname}, correo ${mail}, password${password}, cpassword${cpassword}, codigo ${code}, grado: ${grade},seccion ${section}`,
+  );
   return {
     firstName,
     lastname,

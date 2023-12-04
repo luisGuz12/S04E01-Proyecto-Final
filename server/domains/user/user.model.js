@@ -7,7 +7,7 @@ import uniqueValidator from 'mongoose-unique-validator';
 // 2.- Desestructurando la fn Schema
 const { Schema } = mongoose;
 // 3.- Creando el esquema
-const UserShcema = new Schema(
+const UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
     lastname: { type: String, required: true },
@@ -79,10 +79,10 @@ const UserShcema = new Schema(
 );
 
 // adding pluggins to Schema
-UserShcema.plugin(uniqueValidator);
+UserSchema.plugin(uniqueValidator);
 
 // Asignando methods de instancia
-UserShcema.methods = {
+UserSchema.methods = {
   // Metodo para encriptar el password
   hashPassword() {
     return bcrypt.hashSync(this.password, 10);
@@ -110,7 +110,7 @@ UserShcema.methods = {
 };
 
 // Hooks
-UserShcema.pre('save', function presave(next) {
+UserSchema.pre('save', function presave(next) {
   // Encriptar el password
   if (this.isModified('password')) {
     this.password = this.hashPassword();
@@ -119,4 +119,4 @@ UserShcema.pre('save', function presave(next) {
 });
 
 // 4.- Compilando el modelo y exportando
-export default mongoose.model('user', UserShcema);
+export default mongoose.model('user', UserSchema);
