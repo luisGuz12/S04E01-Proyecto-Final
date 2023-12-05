@@ -93,24 +93,20 @@ const resultpost = async (req, res) => {
 
 // GET "/user/edit/:id"
 const edit = async (req, res) => {
-  // Extrayendo el id por medio de los parametros de url
   const { id } = req.params;
-  // Buscando en la base de datos
   try {
-    log.info(`Se inicia la busqueda del usuario con el id: ${id}`);
+    log.info(`Se inicia la búsqueda del usuario con el id: ${id}`);
     const user = await userModel.findOne({ _id: id }).lean().exec();
-    if (user === null) {
-      log.info(`No se encontro el usuario con el id: ${id}`);
+    if (!user) {
+      log.info(`No se encontró el usuario con el id: ${id}`);
       return res
         .status(404)
-        .json({ fail: `No se encontro el usuario con el id: ${id}` });
+        .json({ fail: `No se encontró el usuario con el id: ${id}` });
     }
-    // Se manda a renderizar la vista de edición
-    // res.render('user/editView', user);
-    log.info(`usuario encontrado con el id: ${id}`);
+    log.info(`Usuario encontrado con el id: ${id}`);
     return res.render('user/edituser', { user, title: 'user | Edit' });
   } catch (error) {
-    log.error('Ocurre un error en: metodo "error" de user.controller');
+    log.error('Ocurrió un error en el método "edit" de user.controller');
     return res.status(500).json(error);
   }
 };
@@ -118,47 +114,34 @@ const edit = async (req, res) => {
 // PUT "/user/edit/:id"
 const editPut = async (req, res) => {
   const { id } = req.params;
-  // Rescatando la info del formulario
-  const { errorData: validationError } = req;
-  // En caso de haber error
-  // se le informa al cliente
+  const { errorData: validationError, validData: newuser } = req;
+
   if (validationError) {
-    log.info(`Error de validación del libro con id: ${id}`);
-    // Se desestructuran los datos de validación
     const { value: user } = validationError;
-    // Se extraen los campos que fallaron en la validación
     const errorModel = validationError.inner.reduce((prev, curr) => {
-      // Creando una variable temporal para
-      // evitar el error "no-param-reassing"
       const workingPrev = prev;
       workingPrev[`${curr.path}`] = curr.message;
       return workingPrev;
     }, {});
     return res.status(422).render('user/edituser', { user, errorModel });
   }
-  // Si no hay error
-  const user = await userModel.findOne({ _id: id });
-  if (user === null) {
-    log.info(`No se encontro el libro para actualizar con id: ${id}`);
-    return res
-      .status(404)
-      .send(`No se encontro el libro para actualizar con id: ${id}`);
-  }
-  // En caso de encontrarse el documento se actualizan los datos
-  const { validData: newuser } = req;
-  user.firstName = newuser.firstName;
-  user.lastname = newuser.description;
-  user.code = newuser.autor;
-  user.grade = newuser.grade;
-  user.section = newuser.section;
-  user.email = newuser.email;
+
   try {
-    // Se salvan los cambios
-    log.info(`Actualizando usuario con id: ${id}`);
-    await user.save();
-    // Generando mensaje flash
-    req.flash('successMessage', ' Usuario editado con exito');
-    return res.redirect(`/user/edituser/${id}`);
+    const user = await userModel.findOneAndUpdate(
+      { _id: id },
+      { $set: newuser },
+      { new: true },
+    );
+
+    if (!user) {
+      log.info(`No se encontró el usuario para actualizar con id: ${id}`);
+      return res
+        .status(404)
+        .send(`No se encontró el usuario para actualizar con id: ${id}`);
+    }
+
+    req.flash('successMessage', 'Usuario editado con éxito');
+    return res.redirect(`/user/edit/${id}`);
   } catch (error) {
     log.error(`Error al actualizar usuario con id: ${id}`);
     return res.status(500).json(error);
