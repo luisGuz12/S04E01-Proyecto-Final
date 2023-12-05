@@ -93,58 +93,64 @@ const resultpost = async (req, res) => {
 
 // GET "/user/edit/:id"
 const edit = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Obtiene el ID del usuario de los parámetros de la solicitud
   try {
-    log.info(`Se inicia la búsqueda del usuario con el id: ${id}`);
-    const user = await userModel.findOne({ _id: id }).lean().exec();
+    log.info(`Se inicia la búsqueda del usuario con el id: ${id}`); // Registra un mensaje informativo sobre la búsqueda del usuario
+    const user = await userModel.findOne({ _id: id }).lean().exec(); // Busca un usuario en la base de datos por su ID
     if (!user) {
-      log.info(`No se encontró el usuario con el id: ${id}`);
+      // Si no se encuentra el usuario
+      log.info(`No se encontró el usuario con el id: ${id}`); // Registra un mensaje informativo sobre la no existencia del usuario
       return res
         .status(404)
-        .json({ fail: `No se encontró el usuario con el id: ${id}` });
+        .json({ fail: `No se encontró el usuario con el id: ${id}` }); // Envía una respuesta de error al cliente
     }
-    log.info(`Usuario encontrado con el id: ${id}`);
-    return res.render('user/edituser', { user, title: 'user | Edit' });
+    log.info(`Usuario encontrado con el id: ${id}`); // Registra un mensaje informativo de que se encontró el usuario
+    return res.render('user/edituser', { user, title: 'user | Edit' }); // Renderiza la vista de edición del usuario encontrada
   } catch (error) {
-    log.error('Ocurrió un error en el método "edit" de user.controller');
-    return res.status(500).json(error);
+    // Manejo de errores
+    log.error('Ocurrió un error en el método "edit" de user.controller'); // Registra un mensaje de error en caso de excepción
+    return res.status(500).json(error); // Envia una respuesta de error al cliente con detalles del error
   }
 };
 
 // PUT "/user/edit/:id"
 const editPut = async (req, res) => {
-  const { id } = req.params;
-  const { errorData: validationError, validData: newuser } = req;
+  const { id } = req.params; // Obtiene el ID del usuario de los parámetros de la solicitud
+  const { errorData: validationError, validData: newuser } = req; // Obtiene los datos de validación y los datos válidos de la solicitud
 
   if (validationError) {
-    const { value: user } = validationError;
+    // Si hay errores de validación
+    const { value: user } = validationError; // Obtiene los valores con errores de la validación
     const errorModel = validationError.inner.reduce((prev, curr) => {
       const workingPrev = prev;
       workingPrev[`${curr.path}`] = curr.message;
       return workingPrev;
-    }, {});
-    return res.status(422).render('user/edituser', { user, errorModel });
+    }, {}); // Crea un modelo de errores para mostrar en la vista de edición
+
+    return res.status(422).render('user/edituser', { user, errorModel }); // Renderiza la vista de edición con errores de validación
   }
 
   try {
     const user = await userModel.findOneAndUpdate(
       { _id: id },
-      { $set: newuser },
-      { new: true },
+      { $set: newuser }, // Actualiza los datos del usuario con los nuevos datos válidos
+      { new: true }, // Devuelve el nuevo documento actualizado
     );
 
     if (!user) {
-      log.info(`No se encontró el usuario para actualizar con id: ${id}`);
+      // Si no se encuentra el usuario
+      log.info(`No se encontró el usuario para actualizar con id: ${id}`); // Registra un mensaje informativo sobre la no existencia del usuario
       return res
         .status(404)
-        .send(`No se encontró el usuario para actualizar con id: ${id}`);
+        .send(`No se encontró el usuario para actualizar con id: ${id}`); // Envía una respuesta de error al cliente
     }
 
-    req.flash('successMessage', 'Usuario editado con éxito');
-    return res.redirect(`/user/edit/${id}`);
+    req.flash('successMessage', 'Usuario editado con éxito'); // Agrega un mensaje de éxito a través de flash para mostrar al usuario
+    return res.redirect(`/user/edit/${id}`); // Redirige a la vista de edición del usuario
   } catch (error) {
-    log.error(`Error al actualizar usuario con id: ${id}`);
-    return res.status(500).json(error);
+    // Manejo de errores
+    log.error(`Error al actualizar usuario con id: ${id}`); // Registra un mensaje de error en caso de excepción
+    return res.status(500).json(error); // Envia una respuesta de error al cliente con detalles del error
   }
 };
 
