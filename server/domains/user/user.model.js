@@ -9,7 +9,7 @@ const { Schema } = mongoose;
 const UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+    lastname: { type: String, required: true },
     grade: { type: String, required: true },
     section: { type: String, required: true },
     mail: {
@@ -57,7 +57,7 @@ UserSchema.methods = {
     return {
       id: this._id,
       firstName: this.firstName,
-      lastName: this.lastName,
+      lastname: this.lastName,
       grade: this.grade,
       section: this.section,
       mail: this.mail,
