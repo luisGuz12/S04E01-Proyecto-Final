@@ -1,5 +1,7 @@
-<!-- Dropdow para menu "Projectos" -->
+<!-- Dropdow para menu "libros" -->
 <ul id="dropdownMenu" class="dropdown-content">
+  {{#unless user}}
+  {{else}}
   <li>
     <a href="/book">
       <i class="large material-icons" style="margin: 2px;">
@@ -26,10 +28,12 @@
       registrar libro
     </a>
   </li>
+  {{/unless}}
 </ul>
 
 <!-- Dropdow para menu "Usuarios" -->
 <ul id="user-dropdown-menu" class="dropdown-content">
+  {{#unless user}}
         <li>
           <a href="/user/login">
             <i class="material-icons left">
@@ -47,6 +51,7 @@
             Registrarse
           </a>
         </li>
+        {{else}}
         <li class="divider"></li>
         <li>
           <a href="/user/logout">
@@ -65,6 +70,7 @@
             Buscar usuario
           </a>
         </li>
+        {{/unless}}
 </ul>
 <nav class="teal darken-4">
   <div class="container">
@@ -132,6 +138,8 @@
           </a>
         </li>
         <li class="divider"></li>
+        {{#unless user}}
+        {{else}}
         <li>
           <a href="/book">
             <i class="large material-icons left">
@@ -157,7 +165,9 @@
             registrar libro
           </a>
         </li>
+        {{/unless}}
         <li class="divider"></li>
+        {{#unless user}}
         <li>
           <a href="/user/login">
             <i class="material-icons left">
@@ -174,6 +184,7 @@
             Registrarse
           </a>
         </li>
+        {{else}}
         <li>
           <a href="/user/logout">
             <i class="material-icons left">
@@ -198,6 +209,7 @@
             listar usuario
           </a>
         </li>
+        {{/unless}}
         <li class="divider"></li>
         <li>
           <a href="/about">

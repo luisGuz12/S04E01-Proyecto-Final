@@ -26,7 +26,7 @@
 {{#if passportError}}
   <script>
     document.querySelector('script[src="/bundle.js"]').onload = ()=>{
-      M.toast({html: '{{passportError}}', classes: 'card-panel red accent-4 rounded white-text', displayLength: 3000})
+      M.toast({html: '<i class="material-icons">error</i> {{passportError}}', classes: 'card-panel red accent-4 rounded white-text', displayLength: 3000})
     }
   </script>
 {{/if}}
