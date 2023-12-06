@@ -100,6 +100,7 @@
           </a>
         </li>
         <!-- Dropdown Trigger -->
+        {{#if user}}
         <li>
           <a class="dropdown-trigger" href="#!" data-target="dropdownMenu">
             Acciones
@@ -108,6 +109,7 @@
             </i>
           </a>
         </li>
+        {{/if}}
         <!-- User Dropdown -->
         <li>
           <a class="dropdown-trigger" href="#!" data-target="user-dropdown-menu">
@@ -140,6 +142,7 @@
         <li class="divider"></li>
         {{#unless user}}
         {{else}}
+        {{#if user}}
         <li>
           <a href="/book">
             <i class="large material-icons left">
@@ -165,6 +168,7 @@
             registrar libro
           </a>
         </li>
+        {{/if}}
         {{/unless}}
         <li class="divider"></li>
         {{#unless user}}
