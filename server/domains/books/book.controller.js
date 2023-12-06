@@ -165,7 +165,12 @@ const resultpost = async (req, res) => {
     console.log(req.body);
     const searchTerm = req.body.name;
     const book = await await bookModel
-      .find({ name: new RegExp(searchTerm, 'i') })
+      .find({
+        $or: [
+          { name: new RegExp(searchTerm, 'i') },
+          { autor: new RegExp(searchTerm, 'i') },
+        ],
+      })
       .lean()
       .exec();
     // res.json(book);

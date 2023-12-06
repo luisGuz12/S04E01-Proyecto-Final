@@ -127,6 +127,8 @@ const editPut = async (req, res) => {
       return workingPrev;
     }, {}); // Crea un modelo de errores para mostrar en la vista de edición
 
+    console.log(errorModel);
+    console.log(user);
     return res.status(422).render('user/edituser', { user, errorModel }); // Renderiza la vista de edición con errores de validación
   }
 

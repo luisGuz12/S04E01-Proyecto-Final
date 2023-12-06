@@ -2,166 +2,156 @@
   <div class='col s12 m10 offset-m1 18 offset-12'>
     <div class='card'>
       <div class='card-image'>
-        <img src='/images/user.png' alt='Imagen de edicion de usuario' />
+        <img src='/images/user.png' alt='Imagen de usuario' />
         <span class='card-title add-project' style='font-weight: bolder;'>
-          Editar usuario
+          Editar Usuario
         </span>
       </div>
       <form autocomplete="off" action="/user/edit/{{ user._id }}?_method=put" method="post">
-     <div class='card-content'>
-       <div class='input-field'>
-            <label for='user-firstName'>nombre</label>
+        <div class='card-content'>
+          <div class='input-field'>
+            <label for='user-firstName'>
+              Nombre del Usuario
+            </label>
             <input
-              placeholder='nombre del usuario aqui'
+              type='text'
               id='user-firstName'
               name='firstName'
-              type='text'
-              class="validate"
-              value="{{ user.firstName }}"
+              placeholder='Ingrese nombre de usuario'
+              class='validate'
+              value='{{user.firstName}}'
               required
             />
-            <span 
-              class="helper-text"
-              data-error="Es necesario ingresar el nombre del usuario"
-              data-success="✅ Correcto"
-              ></span>
-            {{#if errorModel.name }}
-            <span style="color: crimson;">Error: {{ errorModel.name }}</span>
+            <span
+              class='helper-text'
+              data-error='👆 Es necesario ingresar el nombre de usuario 👆'
+              data-success='✅ Correcto'
+            ></span>
+            {{#if errorModel.firstName}}
+              <span style='color: crimson;'>Error: {{errorModel.firstName}}</span>
             {{/if}}
           </div>
-          
-            <div class="card-content">
           <div class='input-field'>
-            <label for='user-lastname'>apellidos</label>
-            <input
-              placeholder='apellidos del usuario'
-              id='user-lastname'
+            <label for='user-lastname'>
+              Apellidos
+            </label>
+            <textarea
               name='lastname'
-              type='text'
-              class="validate"
-              value="{{ user.lastname }}"
+              id='user-lastname'
+              class='materialize-textarea validate'
               required
-            />
-            <span 
-              class="helper-text"
-              data-error="Es necesario ingresar el apellido del alumno"
-              data-success="✅ Correcto"
-              ></span>
-            {{#if errorModel.name }}
-            <span style="color: crimson;">Error: {{ errorModel.name }}</span>
+            >{{user.lastname}}</textarea>
+            <span
+              class='helper-text'
+              data-error='👆 Debe ingresar sus apellidos 👆'
+              data-success='✅ Correcto'
+            ></span>
+            {{#if errorModel.lastname}}
+              <span style='color: crimson;'>Error:
+                {{errorModel.lastname}}</span>
             {{/if}}
           </div>
-            
-
-          <div class="card-content">
           <div class='input-field'>
-            <label for='user-mail'>ingrese el correo</label>
-            <input
-              placeholder='ingrese un correo'
-              id='user-mail'
+            <label for='user-mail'>
+              Correo
+            </label>
+            <textarea
               name='mail'
-              type='text'
-              class="validate"
-              value="{{ user.mail }}"
+              id='user-mail'
+              class='materialize-textarea validate'
               required
-            />
-            <span 
-              class="helper-text"
-              data-error="Es necesario ingresar un correo"
-              data-success="✅ Correcto"
-              ></span>
-            {{#if errorModel.name }}
-            <span style="color: crimson;">Error: {{ errorModel.name }}</span>
+            >{{user.mail}}</textarea>
+            <span
+              class='helper-text'
+              data-error='👆 Debe ingresar un correo valido 👆'
+              data-success='✅ Correcto'
+            ></span>
+            {{#if errorModel.mail}}
+              <span style='color: crimson;'>Error:
+                {{errorModel.mail}}</span>
             {{/if}}
           </div>
-
- <div class="card-content">
           <div class='input-field'>
-            <label for='user-code'>ingrese el codigo del alumno</label>
-            <input
-              placeholder='codigo del alumno'
-              id='user-code'
+            <label for='user-code'>
+              Codigo
+            </label>
+            <textarea
               name='code'
-              type='text'
-              class="validate"
-              value="{{ user.code }}"
+              id='user-code'
+              class='materialize-textarea validate'
               required
-            />
-            <span 
-              class="helper-text"
-              data-error="Es necesario ingresar el grado del alumno"
-              data-success="✅ Correcto"
-              ></span>
-            {{#if errorModel.name }}
-            <span style="color: crimson;">Error: {{ errorModel.name }}</span>
+            >{{user.code}}</textarea>
+            <span
+              class='helper-text'
+              data-error='👆 Debe ingresar su codigo de usuario 👆'
+              data-success='✅ Correcto'
+            ></span>
+            {{#if errorModel.code}}
+              <span style='color: crimson;'>Error:
+                {{errorModel.code}}</span>
             {{/if}}
           </div>
-
-
-           <div class="card-content">
           <div class='input-field'>
-            <label for='user-grade'>ingrese el grado del alumno</label>
-            <input
-              placeholder='grado del alumno'
-              id='user-grade'
+            <label for='user-grade'>
+              Grado
+            </label>
+            <textarea
               name='grade'
-              type='text'
-              class="validate"
-              value="{{ user.grade}}"
+              id='user-grade'
+              class='materialize-textarea validate'
               required
-            />
-            <span 
-              class="helper-text"
-              data-error="Es necesario ingresar el grado del alumno"
-              data-success="✅ Correcto"
-              ></span>
-            {{#if errorModel.name }}
-            <span style="color: crimson;">Error: {{ errorModel.name }}</span>
+            >{{user.grade}}</textarea>
+            <span
+              class='helper-text'
+              data-error='👆 Debe ingresar su grado 👆'
+              data-success='✅ Correcto'
+            ></span>
+            {{#if errorModel.grade}}
+              <span style='color: crimson;'>Error:
+                {{errorModel.grade}}</span>
             {{/if}}
           </div>
-
-            <div class="card-content">
           <div class='input-field'>
-            <label for='user-section'>seccion del alumno</label>
-            <input
-              placeholder='seccion del alumno'
-              id='user-section'
+            <label for='user-section'>
+              Seccion
+            </label>
+            <textarea
               name='section'
-              type='text'
-              class="validate"
-              value="{{ user.section }}"
+              id='user-section'
+              class='materialize-textarea validate'
               required
-            />
-            <span 
-              class="helper-text"
-              data-error="Es necesario ingresar la seccion del usuario"
-              data-success="✅ Correcto"
-              ></span>
-            {{#if errorModel.name }}
-            <span style="color: crimson;">Error: {{ errorModel.name }}</span>
+            >{{user.section}}</textarea>
+            <span
+              class='helper-text'
+              data-error='👆 Debe ingresar su seccion 👆'
+              data-success='✅ Correcto'
+            ></span>
+            {{#if errorModel.section}}
+              <span style='color: crimson;'>Error:
+                {{errorModel.section}}</span>
             {{/if}}
-          </div>   
-
-  <div class="card-content">
-        <i class="material-icons prefix">
-          password
-        </i>
-        <input name="password" id="password" type="password" class="validate" />
-        <label for="password">
-          Contraseña
-        </label>
-      </div>
-
-          <div class="card-content">
-         <i class="material-icons prefix">
-          password
-        </i>
-        <input name="cpassword" id="confirm-password" type="password" class="validate" />
-        <label for="confirm-password">
-          Confirmar contraseña
-        </label>
-      </div>
-
+          </div>
+          <div class='input-field'>
+            <label for='user-password'>
+              password
+            </label>
+            <input
+              type="password"
+              name='password'
+              id='user-password'
+              class='materialize-textarea validate'
+              required
+            >
+            <span
+              class='helper-text'
+              data-error='👆 Debe ingresar su nueva password 👆'
+              data-success='✅ Correcto'
+            ></span>
+            {{#if errorModel.password}}
+              <span style='color: crimson;'>Error:
+                {{errorModel.password}}</span>
+            {{/if}}
+          </div>
         </div>
         <div class='card-action'>
           <button class='blue darken-3 waves-effect waves-light btn'>

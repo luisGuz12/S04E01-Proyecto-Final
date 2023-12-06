@@ -40,6 +40,7 @@ router.post('/search', userController.resultpost);
 
 // GET "/project/edit/:id"
 router.get('/edit/:id', userController.edit);
+
 // PUT "/user/edit/:id"
 router.put(
   '/edit/:id',
