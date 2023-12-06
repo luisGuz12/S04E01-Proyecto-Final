@@ -12,13 +12,14 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema(
   {
-    firstName: { type: String, required: true },
-    lastname: { type: String, required: true },
-    grade: { type: String, required: true },
-    section: { type: String, required: true },
+    firstName: { type: String, required: true, lowercase: true },
+    lastname: { type: String, required: true, lowercase: true },
+    grade: { type: String, required: true, lowercase: true },
+    section: { type: String, required: true, lowercase: true },
     mail: {
       type: String,
       unique: true,
+      lowercase: true,
       required: [true, 'Es necesario ingresar email'],
       validate: {
         validator: (mail) => validator.isEmail(mail),
@@ -35,6 +36,7 @@ const UserSchema = new Schema(
     code: {
       type: String,
       required: [true, 'Es necesario ingresar un código de estudiante'],
+      lowercase: true,
       trim: true,
       minLength: [
         9,
@@ -79,6 +81,21 @@ UserSchema.methods = {
       updatedAt: this.updatedAt,
     };
   },
+  // Metodo para activar el usuario
+  async activate() {
+    await this.updateOne({
+      emailConfirmationToken: null,
+      // updatedAt: new Date(),
+      emailConfirmationAt: new Date(),
+    }).exec();
+  },
+};
+
+// statics Methods
+UserSchema.statics.findByToken = async function findByToken(token) {
+  // "this" hace referencia al modelo es decir
+  // a todo el conjunto de documentos
+  return this.findOne({ emailConfirmationToken: token });
 };
 
 // Hooks
@@ -121,10 +138,11 @@ UserSchema.post('save', async function sendConfirmationMail() {
         lastname: this.lastname,
         mail: this.mail,
         token: this.emailConfirmationToken,
+        host: configKeys.APP_URL,
       },
       `Estimado ${this.firstName} ${this.lastname} 
       para validar tu cuenta debes hacer clic en el siguiente
-      enlace: /user/confirm/${this.token}`,
+      enlace: ${configKeys.APP_URL}/user/confirm/${this.token}`,
     );
 
     if (!info) return log.info('💔 No se pudo enviar el correo');
